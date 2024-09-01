@@ -1,13 +1,11 @@
 @tool
 extends EditorPlugin
 
-const ResPathInspector = preload("res://addons/resource_path/inspector_plugin.gd")
-
-var _inspector: ResPathInspector
-
+const ResourcePathInspectorPlugin := preload("res://addons/resource_path/editor_inspector_plugin.gd")
+var _inspector: ResourcePathInspectorPlugin
 
 func _enter_tree() -> void:
-	_inspector = ResPathInspector.new()
+	_inspector = ResourcePathInspectorPlugin.new()
 	add_inspector_plugin(_inspector)
 
 
