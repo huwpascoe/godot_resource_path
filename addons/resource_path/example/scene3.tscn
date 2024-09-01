@@ -1,0 +1,121 @@
+[gd_scene load_steps=4 format=3 uid="uid://c78km7kqkee21"]
+
+[ext_resource type="Texture2D" uid="uid://drfibs4sbs6uq" path="res://addons/resource_path/example/tile_texture.tres" id="1_clj7n"]
+[ext_resource type="PackedScene" uid="uid://ebhw2yadwlaq" path="res://addons/resource_path/example/btn_scene_load.tscn" id="1_knxqy"]
+
+[sub_resource type="GDScript" id="GDScript_pgo86"]
+script/source = "extends TextureRect
+
+@export_file(\"Texture2D\")
+var image_path: String
+
+@onready var _label: Label = $Label
+var _t: Tween
+
+
+func _ready() -> void:
+	_t = create_tween()
+	_t.tween_property(
+		self, ^\"position\",
+		get_parent_control().get_rect().get_center() - size/2.0,
+		2.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
+	_t.tween_callback(func():
+		texture = load(image_path)
+		_label.text = \"I AM BOSS\"
+	)
+	for _i in range(3):
+		_t.tween_property(self, ^\"scale\", Vector2.ONE * 1.2, 0.1)
+		_t.tween_property(self, ^\"scale\", Vector2.ONE, 0.2)
+
+
+func _on_gui_input(event: InputEvent) -> void:
+	if _t and _t.is_running():
+		return
+
+	if event is InputEventMouseButton:
+		_label.text = \"I AM DEFEAT\"
+		_t = create_tween()
+		_t.tween_property(self, ^\"scale\", Vector2.ZERO, 2.0)
+		_t.tween_callback(self.queue_free)
+"
+
+[node name="Scene3" type="TextureRect"]
+self_modulate = Color(0.6, 0.5, 1, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_clj7n")
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 45.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Boss"
+
+[node name="ToScene2" parent="." instance=ExtResource("1_knxqy")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+grow_horizontal = 2
+text = "To Dungeon"
+destination_scene = "uid://cq3cr1dkg5tdk"
+
+[node name="ToScene1" parent="." instance=ExtResource("1_knxqy")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -31.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Secret Exit"
+destination_scene = "uid://ds1u3bhq1dtjr"
+
+[node name="Boss" type="TextureRect" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -128.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(64, 64)
+flip_v = true
+script = SubResource("GDScript_pgo86")
+image_path = "uid://drfibs4sbs6uq"
+
+[node name="Label" type="Label" parent="Boss"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -11.5
+offset_right = 45.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lazy Load..."
+
+[connection signal="gui_input" from="Boss" to="Boss" method="_on_gui_input"]

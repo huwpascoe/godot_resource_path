@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds1u3bhq1dtjr"]
+
+[ext_resource type="Texture2D" uid="uid://drfibs4sbs6uq" path="res://addons/resource_path/example/tile_texture.tres" id="1_tiu2c"]
+[ext_resource type="PackedScene" uid="uid://ebhw2yadwlaq" path="res://addons/resource_path/example/btn_scene_load.tscn" id="1_y35qw"]
+
+[node name="Scene1" type="TextureRect"]
+self_modulate = Color(0.498039, 1, 0.498039, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_tiu2c")
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 45.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Forest"
+
+[node name="ToScene2" parent="." instance=ExtResource("1_y35qw")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -64.0
+offset_right = 0.0
+offset_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "To Dungeon"
+destination_scene = "uid://cq3cr1dkg5tdk"

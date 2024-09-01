@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ebhw2yadwlaq"]
+
+[ext_resource type="Script" path="res://addons/resource_path/example/btn_scene_load.gd" id="1_k01uw"]
+
+[node name="Button" type="Button"]
+offset_right = 256.0
+offset_bottom = 128.0
+script = ExtResource("1_k01uw")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
